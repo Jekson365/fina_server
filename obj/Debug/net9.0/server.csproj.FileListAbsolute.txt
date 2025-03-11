@@ -136,3 +136,4 @@
 /home/jeko/Desktop/fina/server/bin/Debug/net9.0/Microsoft.AspNetCore.JsonPatch.dll
 /home/jeko/Desktop/fina/server/bin/Debug/net9.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /home/jeko/Desktop/fina/server/bin/Debug/net9.0/Newtonsoft.Json.Bson.dll
+/home/jeko/Desktop/fina/server/obj/Debug/net9.0/server.sourcelink.json

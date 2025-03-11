@@ -63,18 +63,19 @@ namespace server.repositories
 
         public async Task<List<Group>> GetGroups()
         {
-            var categories = await _context.Groups
-                       .Where(c => c.ParentId == null)
-                       .Include(g => g.SubGroups)
-                       .ToListAsync();
+            var rootGroups = await _context.Groups
+                .Where(g => g.ParentId == null)
+                .Include(g => g.SubGroups)
+                .ToListAsync();
 
-            foreach (var category in categories)
+            foreach (var group in rootGroups)
             {
-                await LoadSubCategories(category);
+                await LoadSubGroups(group);
             }
 
-            return categories;
+            return rootGroups;
         }
+
 
         public async Task<Group?> Update(EditGroupDto groupDto)
         {
@@ -91,19 +92,18 @@ namespace server.repositories
             return currentGroup;
         }
 
-        private async Task LoadSubCategories(Group group)
+        private async Task LoadSubGroups(Group group)
         {
-            var subcategories = await _context.Groups
-                .Where(c => c.ParentId == group.Id)
+            group.SubGroups = await _context.Groups
+                .Where(g => g.ParentId == group.Id)
                 .Include(g => g.SubGroups)
                 .ToListAsync();
 
-            group.SubGroups = subcategories;
-
-            foreach (var subgroup in subcategories)
+            foreach (var subGroup in group.SubGroups)
             {
-                await LoadSubCategories(subgroup);
+                await LoadSubGroups(subGroup);
             }
         }
+
     }
 }
